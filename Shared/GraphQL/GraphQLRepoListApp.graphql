@@ -1,0 +1,42 @@
+query SearchRepositoriesWithCursor($cursorString: String!, $queryString: String!) {
+  search(query: $queryString, type: REPOSITORY, first: 40, after: $cursorString) {
+
+    pageInfo {
+      hasNextPage
+    }
+
+    edges {
+        cursor
+      node {
+        ...repositoryData
+      }
+    }
+  }
+}
+
+query SearchRepositoriesWith($queryString: String!) {
+  search(query: $queryString, type: REPOSITORY, first: 40) {
+
+    pageInfo {
+      hasNextPage
+    }
+
+    edges {
+        cursor
+      node {
+        ...repositoryData
+      }
+    }
+  }
+}
+
+fragment repositoryData on Repository {
+          name
+          owner {
+              login
+              avatarUrl
+          }
+          stargazers {
+            totalCount
+          }
+}
